@@ -30,7 +30,7 @@ jobs:
     - name: Prepare Matrix for Artifacts Upload
       id: set-matrix
       run: |
-        MATRIX=$(ls -d compiled/*/ | xargs -n 1 basename | jq -R -s -c 'split("\n")[:-1]')
+        MATRIX=$(ls -d compiled/*/ | xargs -I {} basename {} | jq -R -s -c 'split("\n")[:-1]')
         echo "::set-output name=matrix::$MATRIX"
 
 
