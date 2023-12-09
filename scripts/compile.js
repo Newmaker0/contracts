@@ -30,8 +30,9 @@ async function main() {
                     bytecode: contractJson.bytecode
                 };
 
-                // Create a unique directory for each contract's artifacts
-                const contractOutputDir = path.join(compiledDir, folder);
+                // Create a directory for each contract's artifacts, stripping out the '.sol' extension
+                const contractName = folder.replace('.sol', '');
+                const contractOutputDir = path.join(compiledDir, contractName);
                 if (!fs.existsSync(contractOutputDir)) {
                     fs.mkdirSync(contractOutputDir, { recursive: true });
                 }
