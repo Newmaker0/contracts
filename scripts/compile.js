@@ -7,7 +7,7 @@ async function main() {
     // Compile all contracts
     await hre.run('compile');
 
-    // The contracts are compiled and their artifacts are saved in the 'artifacts' directory
+    // The contracts are compiled and their artifacts are saved in the 'artifacts' directory1
     const contractsDir = path.join(__dirname, '../artifacts/contracts');
     
     // Create 'compiled' directory if it does not exist
