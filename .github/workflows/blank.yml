@@ -46,6 +46,6 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Simple
-        path: compiled/simple/simpleContract.json
+        path: compiled/simple/SimpleContract.json
 
     # Repeat for other contracts as necessary
