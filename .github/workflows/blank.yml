@@ -10,17 +10,11 @@ jobs:
   compile:
     runs-on: ubuntu-latest
 
-    outputs:
-      matrix: ${{ steps.set-matrix.outputs.matrix }}
-
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0 # Fetch all history for all branches and tags
+    - uses: actions/checkout@v4
 
     - name: Set up Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v2
       with:
         node-version: '18'
 
@@ -30,17 +24,28 @@ jobs:
     - name: Compile Contracts
       run: npm run compile-contracts
 
-    - name: Prepare Matrix for Artifacts Upload
-      id: set-matrix
-      run: |
-        MATRIX=$(ls -d compiled/*/ | xargs -I {} basename {} | jq -R -s -c 'split("\n")[:-1]')
-        echo "Matrix: $MATRIX"
-        echo "::set-output name=matrix::$MATRIX"
-
-    - name: Upload Artifact
+    - name: Upload Contract A Artifact
       uses: actions/upload-artifact@v3
       with:
-        name: ${{ matrix.contract }}
-        path: compiled/${{ matrix.contract }}
+        name: Constructor
+        path: compiled/constructor/ConstructorContract.json
 
-          
+    - name: Upload Contract B Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ImportContract
+        path: compiled/imports/MyToken.json
+
+    - name: Upload Contract B Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: ImportNDConstructor
+        path: compiled/importsAndConstructor/FullFeatureContract.json
+
+    - name: Upload Contract B Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: Simple
+        path: compiled/simple/simpleContract.json
+
+    # Repeat for other contracts as necessary
