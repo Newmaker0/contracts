@@ -11,15 +11,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@nomiclabs/hardhat-ethers": "^2.2.3",
     "ethers": "^5.7.2",
     "hardhat": "^2.19.2"
   },
   "dependencies": {
-    "@openzeppelin/cli": "^2.8.2",
     "@openzeppelin/contracts": "^5.0.1",
-    "@openzeppelin/contracts-ethereum-package": "^3.0.0",
-    "@openzeppelin/contracts-upgradeable": "^5.0.1",
     "@openzeppelin/upgrades": "^2.8.0"
   }
 }
