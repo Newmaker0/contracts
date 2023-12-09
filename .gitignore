@@ -36,3 +36,5 @@ Thumbs.db
 *.iml
 *.sublime-workspace
 *.sublime-project
+
+package-lock.json
