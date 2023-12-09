@@ -14,7 +14,10 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout Code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0 # Fetch all history for all branches and tags
 
     - name: Set up Node.js
       uses: actions/setup-node@v1
@@ -33,7 +36,6 @@ jobs:
         MATRIX=$(ls -d compiled/*/ | xargs -I {} basename {} | jq -R -s -c 'split("\n")[:-1]')
         echo "::set-output name=matrix::$MATRIX"
 
-
   upload-artifacts:
     needs: compile
     runs-on: ubuntu-latest
@@ -41,10 +43,11 @@ jobs:
       matrix:
         contract: ${{fromJson(needs.compile.outputs.matrix)}}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.contract }}
-          path: ${{ matrix.contract }}
+          path: compiled/${{ matrix.contract }}
