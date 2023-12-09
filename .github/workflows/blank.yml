@@ -34,6 +34,7 @@ jobs:
       id: set-matrix
       run: |
         MATRIX=$(ls -d compiled/*/ | xargs -I {} basename {} | jq -R -s -c 'split("\n")[:-1]')
+        echo "Matrix: $MATRIX"
         echo "::set-output name=matrix::$MATRIX"
 
   upload-artifacts:
