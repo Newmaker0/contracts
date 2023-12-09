@@ -22,7 +22,7 @@ async function main() {
     fs.readdirSync(contractsDir).forEach(folder => {
         const contractDir = path.join(contractsDir, folder);
         fs.readdirSync(contractDir).forEach(file => {
-            // Filter out non-JSON files
+            // Filter out non-JSON files and debug files
             if (path.extname(file) === '.json' && !file.endsWith('.dbg.json')) {
                 const contractJson = require(path.join(contractDir, file));
                 const output = {
@@ -30,8 +30,14 @@ async function main() {
                     bytecode: contractJson.bytecode
                 };
 
-                // Write ABI and bytecode to a separate JSON file
-                fs.writeFileSync(`./compiled/${folder}${file}`, JSON.stringify(output, null, 2));
+                // Create a unique directory for each contract's artifacts
+                const contractOutputDir = path.join(compiledDir, folder);
+                if (!fs.existsSync(contractOutputDir)) {
+                    fs.mkdirSync(contractOutputDir, { recursive: true });
+                }
+
+                // Write ABI and bytecode to a separate JSON file within its directory
+                fs.writeFileSync(path.join(contractOutputDir, `${path.basename(file)}`), JSON.stringify(output, null, 2));
             }
         });
     });

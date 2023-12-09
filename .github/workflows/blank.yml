@@ -10,13 +10,16 @@ jobs:
   compile:
     runs-on: ubuntu-latest
 
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
     steps:
     - uses: actions/checkout@v2
 
     - name: Set up Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: '18'
+        node-version: '14'
 
     - name: Install Dependencies
       run: npm install
@@ -24,9 +27,21 @@ jobs:
     - name: Compile Contracts
       run: npm run compile-contracts
 
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: compiled-contracts
-        path: |
-          compiled/*.json
+    - name: Prepare Matrix for Artifacts Upload
+      id: set-matrix
+      run: echo "::set-output name=matrix::$(echo $(ls -d compiled/*/) | jq -R -c -s '[split(" ") | .[] | select(length > 0)]')"
+
+  upload-artifacts:
+    needs: compile
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        contract: ${{fromJson(needs.compile.outputs.matrix)}}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.contract }}
+          path: ${{ matrix.contract }}
