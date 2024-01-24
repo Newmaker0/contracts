@@ -48,4 +48,13 @@ jobs:
         name: Simple
         path: compiled/simple/SimpleContract.json
 
-    # Repeat for other contracts as necessary
+        # Create a Hello World text file
+    - name: Create Hello World File
+      run: echo "Hello World" > hello-world.txt
+
+    # Upload the Hello World text file as an artifact
+    - name: Upload Hello World Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: HelloWorld
+        path: hello-world.txt
