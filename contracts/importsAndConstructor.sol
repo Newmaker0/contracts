@@ -6,8 +6,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract FullFeatureContract is Ownable {
     uint256 private initialValue;
 
-   constructor(address initialOwner)
-        Ownable(initialOwner)
+   constructor(address initialOwner1)
+        Ownable(initialOwner1)
     {}
 
     function getInitialValue() public view onlyOwner returns (uint256) {
