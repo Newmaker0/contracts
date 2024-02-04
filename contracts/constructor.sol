@@ -5,7 +5,7 @@ contract ConstructorContract {
     uint256 private initialValue;
 
     constructor(uint256 _initialValue) {
-        initialValue = _initialValue + 1123;
+        initialValue = _initialValue ;
     }
 
     function getInitialValue() public view returns (uint256) {
